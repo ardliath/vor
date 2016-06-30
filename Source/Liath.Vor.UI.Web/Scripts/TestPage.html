@@ -1,0 +1,33 @@
+<html>
+<head>
+  <script src="JQuery/jquery-1.11.3.min.js"></script>
+  <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="Bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- https://code.angularjs.org/1.5.0/ -->
+  <script src="AngularJS/angular.min.js"></script>
+  <script src="AngularJS/angular-sanitize.min.js"></script>
+  <script src="AngularJS/angular-ui-router.min.js"></script>
+  <script src="Bootstrap/ui-bootstrap-tpls.js"></script>
+  <script type="text/javascript">
+
+    var app = angular.module('demo', ['ui.bootstrap', 'ui.router']);
+    app.controller("controller", function($scope) {
+      $scope.Message = "Hello World";
+    });
+  </script>
+
+</head>
+<body ng-app="demo" ng-controller="controller">
+  <div class="container">
+    <h1>{{Message}}</h1>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">Title</div>
+      <div class="panel-body">
+        <p>Panel body</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
