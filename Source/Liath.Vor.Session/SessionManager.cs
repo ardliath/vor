@@ -2,7 +2,7 @@
 
 //using NLog.Internal;
 
-namespace SDA.DevPortal.Session
+namespace Liath.Vor.Session
 {
     public class SessionManager : ISessionManager
     {

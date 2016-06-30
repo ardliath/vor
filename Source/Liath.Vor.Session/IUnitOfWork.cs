@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace SDA.DevPortal.Session
+namespace Liath.Vor.Session
 {
     public interface IUnitOfWork : IDisposable
     {

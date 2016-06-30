@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace SDA.DevPortal.Session
+namespace Liath.Vor.Session
 {
     public class UnitOfWork : IUnitOfWork
     {        

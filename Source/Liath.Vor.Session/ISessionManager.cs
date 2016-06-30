@@ -1,4 +1,4 @@
-﻿namespace SDA.DevPortal.Session
+﻿namespace Liath.Vor.Session
 {
     public interface ISessionManager
     {

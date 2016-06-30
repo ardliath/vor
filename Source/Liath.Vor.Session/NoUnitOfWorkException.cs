@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SDA.DevPortal.Session
+namespace Liath.Vor.Session
 {
     public class NoUnitOfWorkException : Exception        
     {       
