@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liath.Vor.Tests", "Liath.Vo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liath.Vor.UI.Web.Tests", "Liath.Vor.UI.Web.Tests\Liath.Vor.UI.Web.Tests.csproj", "{0F86C375-1DFC-443C-9BFD-A90C2A370FDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liath.Vor.Session", "Liath.Vor.Session\Liath.Vor.Session.csproj", "{C17F9EDB-D86C-4F3E-ABD8-E8641B2EB620}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{0F86C375-1DFC-443C-9BFD-A90C2A370FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F86C375-1DFC-443C-9BFD-A90C2A370FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F86C375-1DFC-443C-9BFD-A90C2A370FDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C17F9EDB-D86C-4F3E-ABD8-E8641B2EB620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17F9EDB-D86C-4F3E-ABD8-E8641B2EB620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17F9EDB-D86C-4F3E-ABD8-E8641B2EB620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C17F9EDB-D86C-4F3E-ABD8-E8641B2EB620}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
