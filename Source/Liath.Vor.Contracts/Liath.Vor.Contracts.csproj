@@ -43,8 +43,14 @@
     <Compile Include="..\Liath.Vor\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DataAccess\ISecurityDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Liath.Vor.Models\Liath.Vor.Models.csproj">
+      <Project>{20e6df2f-bfbd-4492-aef1-540733617959}</Project>
+      <Name>Liath.Vor.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
