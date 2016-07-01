@@ -42,6 +42,17 @@
   <ItemGroup>
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecurityManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Liath.Vor.Contracts\Liath.Vor.Contracts.csproj">
+      <Project>{133F8AD9-C22B-4E4F-A6C6-C4321772CCD0}</Project>
+      <Name>Liath.Vor.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Liath.Vor.Models\Liath.Vor.Models.csproj">
+      <Project>{20E6DF2F-BFBD-4492-AEF1-540733617959}</Project>
+      <Name>Liath.Vor.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

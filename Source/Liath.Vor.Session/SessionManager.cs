@@ -22,7 +22,7 @@ namespace Liath.Vor.Session
 	    public IUnitOfWork CreateUnitOfWork()
 	    {
 		    //logger.Trace("Creating a new UnitOfWork");
-		    var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SDA.DevPortal"];
+		    var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["Liath.Vor"];
 		    _unitOfWork = new UnitOfWork(connectionString);
 		    return _unitOfWork;
 	    }
