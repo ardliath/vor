@@ -8,6 +8,7 @@ using Liath.Vor.Contracts.DataAccess;
 using Liath.Vor.DataAccess.Extensions;
 using Liath.Vor.Models;
 using Liath.Vor.Session;
+using Liath.Vor.DataAccess.Extensions.IDataReaderExtensions;
 
 namespace Liath.Vor.DataAccess
 {
@@ -32,10 +33,10 @@ namespace Liath.Vor.DataAccess
           if (dr.Read())
           {
             var user = new UserAccount();
-            user.UserAccountID = dr.GetInt32(0);
-            user.DomainName = dr.GetString(1);
-            user.Firstname = dr.IsDBNull(2) ? null : dr.GetString(2);
-            user.Lastname = dr.IsDBNull(3) ? null : dr.GetString(3);
+            user.UserAccountID = dr.GetInt32("UserAccountID");
+            user.DomainName = dr.GetString("DomainName");
+            user.Firstname = dr.GetString("Firstname", true);
+            user.Lastname = dr.GetString("Lastname", true);
 
             return user;
           }
