@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Liath.Vor.Contracts.DataAccess;
+using Liath.Vor.DataAccess.Extensions;
 using Liath.Vor.Models;
 using Liath.Vor.Session;
 
@@ -24,10 +25,7 @@ namespace Liath.Vor.DataAccess
       using (var cmd = _sessionManager.CreateUnitOfWork().CreateCommand("USR_GetOrCreateUser"))
       {
         cmd.CommandType = CommandType.StoredProcedure;
-        var param = cmd.CreateParameter();
-        param.ParameterName = "DomainName";
-        param.Value = domainName;
-        cmd.Parameters.Add(param);
+        cmd.CreateAndAddParameter("DomainName", DbType.String, domainName);          
 
         using (var dr = cmd.ExecuteReader())
         {
