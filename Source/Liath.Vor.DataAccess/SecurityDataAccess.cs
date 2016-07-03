@@ -23,12 +23,9 @@ namespace Liath.Vor.DataAccess
 
     public UserAccount GetOrCreateUserAccount(string domainName)
     {
-      using (var cmd = _sessionManager.CreateUnitOfWork().CreateCommand("USR_GetOrCreateUser"))
+      using (var cmd = _sessionManager.CreateUnitOfWork().CreateSPCommand("USR_GetOrCreateUser"))
       {
-        cmd.CommandType = CommandType.StoredProcedure;
-        cmd.CreateAndAddParameter("DomainName", DbType.String, domainName);          
-
-        using (var dr = cmd.ExecuteReader())
+        using (var dr = cmd.CreateAndAddParameter("DomainName", DbType.String, domainName).ExecuteReader())
         {
           if (dr.Read())
           {
