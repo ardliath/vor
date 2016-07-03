@@ -2,6 +2,6 @@
 {
   public enum QuestionType
   {
-    Exlusive
+    Exclusive
   }
 }

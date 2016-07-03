@@ -16,6 +16,7 @@ CREATE TABLE Options
 	QuestionID int not null,
 	Text nvarchar(1024) not null,
 	IsCorrect bit not null,
+	Ordinal smallint not null
 	constraint PK_Options primary key (OptionID),
 	constraint FK_Options_Question foreign key (QuestionID) references Questions(QuestionID)
 )

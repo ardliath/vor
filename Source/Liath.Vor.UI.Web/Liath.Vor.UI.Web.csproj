@@ -143,6 +143,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -182,6 +183,10 @@
     <ProjectReference Include="..\Liath.Vor.DataAccess\Liath.Vor.DataAccess.csproj">
       <Project>{61E72C57-51C2-4901-8349-0CDE5CF14915}</Project>
       <Name>Liath.Vor.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Liath.Vor.Models\Liath.Vor.Models.csproj">
+      <Project>{20E6DF2F-BFBD-4492-AEF1-540733617959}</Project>
+      <Name>Liath.Vor.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\Liath.Vor.Session\Liath.Vor.Session.csproj">
       <Project>{C17F9EDB-D86C-4F3E-ABD8-E8641B2EB620}</Project>

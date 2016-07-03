@@ -27,7 +27,7 @@ namespace Liath.Vor.UI.Web.Controllers
       {
         using (_sessionManager.CreateUnitOfWork())
         {
-          _securityManager.EnsureUserAccountExists();
+          _securityManager.EnsureUserAccountExists();        
           return View();
         }
       }

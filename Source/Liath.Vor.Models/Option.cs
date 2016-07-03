@@ -4,5 +4,6 @@ namespace Liath.Vor.Models
   {
     public int? OptionID { get; set; }
     public string Text { get; set; }
+    public bool? IsCorrect { get; set; }
   }
 }

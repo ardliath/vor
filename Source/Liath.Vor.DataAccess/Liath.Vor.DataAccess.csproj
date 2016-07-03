@@ -43,6 +43,7 @@
     <Compile Include="..\Liath.Vor\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Extensions\IDataReaderExtensions\GetBooleanExtentions.cs" />
     <Compile Include="Extensions\IDataReaderExtensions\GetStringExtensions.cs" />
     <Compile Include="Extensions\IDataReaderExtensions\GetInt32Extensions.cs" />
     <Compile Include="Extensions\IDbCommandExtensions.cs" />

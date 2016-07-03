@@ -9,6 +9,6 @@ namespace Liath.Vor.Contracts.DataAccess
 {
   public interface IQuestionDataAccess
   {
-    Question GetQuestion(int id);
+    Question GetQuestion(int id, bool loadIsCorrect);
   }
 }
