@@ -1,13 +1,13 @@
 CREATE PROCEDURE QA_GetQuestion
-	@DomainName nvarchar(255)
+	@QuestionID int
 AS
-
-IF NOT EXISTS(SELECT * FROM UserAccounts WHERE DomainName = @DomainName)
-BEGIN
-	INSERT INTO UserAccounts(DomainName) VALUES (@DomainName)
-END
+SELECT QuestionID, Text, Type From Questions where QuestionID = @QuestionID
 
 SELECT UserAccountID, DomainName, Firstname, Lastname
-FROM UserAccounts
-WHERE DomainName = @DomainName
+FROM UserAccounts u
+JOIN Questions q on q.CreatedBy = u.UserAccountID and q.QuestionID = @QuestionID
 
+SELECT o.OptionID, o.Text, o.IsCorrect
+FROM Options o
+JOIN Questions q on q.QuestionID = o.QuestionID and q.QuestionID = @QuestionID
+ORDER BY Ordinal

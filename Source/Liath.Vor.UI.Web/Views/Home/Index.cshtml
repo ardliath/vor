@@ -5,20 +5,22 @@
 
 <h2>Index</h2>
 
-<div class="container" ng-app="demo" ng-controller="controller">
+<div class="container" ng-app="quizApp" ng-controller="questionController">
 
   <div class="panel panel-primary">
     <div class="panel-heading">Title</div>
     <div class="panel-body">
       <p>Message: {{Message}}</p>
+
+      <div ng-init="getQuestion(1)">
+        {{question.Text}}
+      </div>
     </div>
   </div>
 </div>
 
 @section Scripts
 {
-  var app = angular.module('demo', ['ui.bootstrap', 'ui.router']);
-  app.controller("controller", function($scope) {
-  $scope.Message = "Hello World";
-  });
+  <script type="text/javascript" src="~/Scripts/Apps/Quiz/Quiz.js"></script>
+  <script type="text/javascript" src="~/Scripts/Apps/Quiz/Controllers/QuestionController.js"></script>
 }
