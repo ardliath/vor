@@ -1,4 +1,4 @@
-CREATE PROCEDURE USR_GetOrCreateUser
+CREATE PROCEDURE QA_GetQuestion
 	@DomainName nvarchar(255)
 AS
 
