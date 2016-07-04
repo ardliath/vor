@@ -14,6 +14,13 @@
 
       <div ng-init="getQuestion(1)">
         {{question.Text}}
+        <table>
+          <tr ng-repeat="option in question.Options">
+            <td>
+              <input type="radio" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" /> {{option.Text}}
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
