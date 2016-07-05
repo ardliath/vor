@@ -9,6 +9,8 @@ namespace Liath.Vor.UI.Web.Models.Question
   {
     public int ExamID { get; set; }
     public int QuestionID { get; set; }
-    public int[] Answers { get; set; }
+    public int[] Options { get; set; }
+
+    public bool IsForwards { get; set; }
   }
 }

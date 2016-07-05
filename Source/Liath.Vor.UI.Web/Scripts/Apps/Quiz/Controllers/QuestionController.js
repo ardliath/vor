@@ -22,12 +22,17 @@
   }
 
   $scope.nextQuestion = function () {
+    $scope.submitAnswer(true);
+  }
+
+  $scope.submitAnswer = function(isForwards) {
     $http.post("../../Question/Answer", {
       ExamID: $scope.exam.ExamID,
       QuestionID: $scope.exam.CurrentQuestionID,
-      Answers: [1, 2, 3]
-      })
-			.success(function (response) {			  
+      IsFowards: isForwards,
+      Options: [1, 2, 3]
+    })
+			.success(function (response) {
 			  $scope.setButtonState();
 			})
 			.error(function (data, status, headers, config) {
@@ -35,7 +40,7 @@
 			});
   }
 
-
   $scope.previousQuestion = function () {
+    $scope.submitAnswer(false);
   }
 });

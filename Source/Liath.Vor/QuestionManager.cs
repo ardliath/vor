@@ -35,5 +35,10 @@ namespace Liath.Vor
       var now = _timeManager.GetNow();
       return _questionDataAccess.GetOrCreateExam(user, quiz, now);
     }
+
+    public Question RecordAnswer(int examId, int questionId, bool isForwards, IEnumerable<int> options)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

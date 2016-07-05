@@ -41,7 +41,14 @@ namespace Liath.Vor.UI.Web.Controllers
     [ActionName("Answer")]
     public ActionResult RecordAnswer(RecordAnswer answer)
     {
-      return Json(true);
+      var nextQuestion = _questionManager.RecordAnswer(answer.ExamID,
+        answer.QuestionID,
+        answer.IsForwards,
+        answer.Options);
+      return Json(new
+      {
+        NextQuestionID = nextQuestion.QuestionID
+      });
     }
   }
 }

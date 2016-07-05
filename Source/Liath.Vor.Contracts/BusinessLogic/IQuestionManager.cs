@@ -10,5 +10,6 @@ namespace Liath.Vor.Contracts.BusinessLogic
   public interface IQuestionManager
   {
     Exam GetExam(int quizID);
+    Question RecordAnswer(int examId, int questionId, bool isForwards, IEnumerable<int> options);
   }
 }
