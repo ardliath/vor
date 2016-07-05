@@ -16,7 +16,30 @@ CREATE TABLE Options
 	QuestionID int not null,
 	Text nvarchar(1024) not null,
 	IsCorrect bit not null,
-	Ordinal smallint not null
+	Ordinal smallint not null,
 	constraint PK_Options primary key (OptionID),
 	constraint FK_Options_Question foreign key (QuestionID) references Questions(QuestionID)
+)
+
+GO
+
+create table Quiz
+(
+	QuizID int identity(1,1) not null,
+	Title nvarchar(255) not null,
+	StartDate DateTime null,
+	EndTime DateTime null,
+	constraint PK_Quiz primary key (QuizID)
+)
+
+GO
+
+create table QuizQuestions
+(
+	QuizID int not null,
+	QuestionID int not null,
+	Ordinal smallint not null,
+	constraint PK_QuizQuestions primary key (QuizID, QuestionID),
+	constraint FK_QuizQuestions_Quiz foreign key (QuizID) references Quiz(QuizID),
+	constraint FK_QuizQuestions_Question foreign key (QuestionID) references Questions(QuestionID),
 )
