@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Liath.Vor.Contracts.BusinessLogic;
 using Liath.Vor.Contracts.DataAccess;
 using Liath.Vor.Session;
+using Liath.Vor.UI.Web.Models.Question;
 
 namespace Liath.Vor.UI.Web.Controllers
 {
@@ -34,6 +35,13 @@ namespace Liath.Vor.UI.Web.Controllers
 
         return Json(exam, JsonRequestBehavior.AllowGet);
       }
+    }
+
+    [HttpPost]
+    [ActionName("Answer")]
+    public ActionResult RecordAnswer(RecordAnswer answer)
+    {
+      return Json(true);
     }
   }
 }
