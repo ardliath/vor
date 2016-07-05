@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Liath.Vor.Contracts.BusinessLogic;
 using Liath.Vor.Contracts.DataAccess;
+using Liath.Vor.Models;
 
 namespace Liath.Vor
 {
@@ -21,11 +22,21 @@ namespace Liath.Vor
 
     public void EnsureUserAccountExists()
     {
-      var domainName = Thread.CurrentPrincipal?.Identity?.IsAuthenticated ?? false
+      var domainName = GetDomainName();
+      _securityDataAccess.GetOrCreateUserAccount(domainName);
+    }
+
+    private string GetDomainName()
+    {
+      return Thread.CurrentPrincipal?.Identity?.IsAuthenticated ?? false
         ? Thread.CurrentPrincipal?.Identity?.Name
         : null;
+    }
 
-      _securityDataAccess.GetOrCreateUserAccount(domainName);
+    public UserAccount GetOrCreateUserAccount()
+    {
+      var domainName = GetDomainName();
+      return _securityDataAccess.GetOrCreateUserAccount(domainName);
     }
   }
 }

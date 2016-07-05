@@ -11,5 +11,6 @@ namespace Liath.Vor.Contracts.DataAccess
   {
     Question GetQuestion(int id, bool loadIsCorrect);
     Quiz GetQuiz(int id, bool loadIsCorrect, bool includeExpiredQuizes);
+    Exam GetOrCreateExam(UserAccount user, Quiz quiz, DateTime now);
   }
 }

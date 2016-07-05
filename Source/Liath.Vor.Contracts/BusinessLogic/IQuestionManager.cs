@@ -7,10 +7,8 @@ using Liath.Vor.Models;
 
 namespace Liath.Vor.Contracts.BusinessLogic
 {
-  public interface ISecurityManager
+  public interface IQuestionManager
   {
-    void EnsureUserAccountExists();
-
-    UserAccount GetOrCreateUserAccount();
+    Exam GetExam(int quizID);
   }
 }

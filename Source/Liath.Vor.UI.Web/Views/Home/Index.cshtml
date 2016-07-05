@@ -7,11 +7,11 @@
 
 <div class="container" ng-app="quizApp" ng-controller="questionController">
 
-  <div class="panel panel-primary" ng-init="getQuiz(1)">
-    <div class="panel-heading"><h2>{{quiz.Title}}</h2></div>
+  <div class="panel panel-primary" ng-init="getExam(1)">
+    <div class="panel-heading"><h2>{{exam.Quiz.Title}}</h2></div>
     <div class="panel-body">
       <div>
-        <div ng-repeat="question in quiz.Questions">
+        <div ng-repeat="question in exam.Quiz.Questions" ng-show="question.QuestionID == exam.CurrentQuestionID">
           <div class="panel panel-default">
             <div class="panel-body">
               {{question.Text}}

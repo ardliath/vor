@@ -43,7 +43,9 @@
     <Compile Include="..\Liath.Vor\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="BusinessLogic\IQuestionManager.cs" />
     <Compile Include="BusinessLogic\ISecurityManager.cs" />
+    <Compile Include="BusinessLogic\ITimeManager.cs" />
     <Compile Include="DataAccess\IQuestionDataAccess.cs" />
     <Compile Include="DataAccess\ISecurityDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

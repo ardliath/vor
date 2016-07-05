@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -177,6 +178,51 @@ namespace Liath.Vor.DataAccess
 
         return quiz;
       }
+    }
+
+    public Exam GetOrCreateExam(UserAccount user, Quiz quiz, DateTime now)
+    {
+      if (user == null) throw new ArgumentNullException(nameof(user));
+      if (quiz == null) throw new ArgumentNullException(nameof(quiz));
+
+      if(!quiz.QuizID.HasValue) throw new ArgumentNullException("The quiz must be saved before it can be used as an exam");
+      if (!user.UserAccountID.HasValue) throw new ArgumentNullException("The user must be saved before they can take an exam");
+
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("QA_GetOrCreateExam"))
+      {
+        var firstQuestion = quiz.Questions.FirstOrDefault();
+        if (firstQuestion == null)
+        {
+          throw new InvalidDataException("The quiz does not have any questions");
+        }
+        if (!firstQuestion.QuestionID.HasValue)
+        {
+          throw new InvalidDataException("The question has not been saved");
+        }
+
+        using (var dr = cmd.CreateAndAddParameter("QuizID", DbType.Int32, quiz.QuizID.Value)
+          .CreateAndAddParameter("UserAccountID", DbType.Int32, user.UserAccountID)
+          .CreateAndAddParameter("Now", DbType.DateTime, now)
+          .CreateAndAddParameter("FirstQuestion", DbType.Int32, firstQuestion.QuestionID.Value)
+          .ExecuteReader())
+        {
+          if (dr.Read())
+          {
+            var exam = new Exam();
+            exam.ExamID = dr.GetInt32("ExamID");
+            exam.CurrentQuestionID = dr.GetInt32("QuestionID");
+            exam.StartDate = dr.GetDateTime("StartDate");
+            exam.EndDate = dr.GetNullableDateTime("EndDate");
+            exam.Score = dr.GetNullableInt32("Score");
+            exam.Quiz = quiz;
+            exam.UserAccount = user;
+
+            return exam;
+          }
+
+          return null;
+        }
+      }        
     }
   }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Liath.Vor.Contracts.BusinessLogic;
 using Liath.Vor.Contracts.DataAccess;
 using Liath.Vor.Session;
 
@@ -11,26 +12,27 @@ namespace Liath.Vor.UI.Web.Controllers
   public class QuestionController : Controller
   {
     private readonly ISessionManager _sessionManager;
-    private readonly IQuestionDataAccess _questionDataAccess;
+    private readonly IQuestionManager _questionManager;
 
-    public QuestionController(ISessionManager sessionManager, IQuestionDataAccess questionDataAccess)
+    public QuestionController(ISessionManager sessionManager, IQuestionManager questionManager)
     {
       if (sessionManager == null) throw new ArgumentNullException(nameof(sessionManager));
-      if (questionDataAccess == null) throw new ArgumentNullException(nameof(questionDataAccess));
+      if (questionManager == null) throw new ArgumentNullException(nameof(questionManager));
+
       _sessionManager = sessionManager;
-      _questionDataAccess = questionDataAccess;
+      _questionManager = questionManager;
     }
 
     [HttpGet]
-    [ActionName("Quiz")]
-    public ActionResult GetQuiz(int id)
+    [ActionName("Exam")]
+    public ActionResult GetExam(int id)
     {
       using (_sessionManager.CreateUnitOfWork())
       {
-        var quiz = _questionDataAccess.GetQuiz(id, false, false);
-        if (quiz == null) return HttpNotFound();
+        var exam = _questionManager.GetExam(id);
+        if (exam == null) return HttpNotFound();
 
-        return Json(quiz, JsonRequestBehavior.AllowGet);
+        return Json(exam, JsonRequestBehavior.AllowGet);
       }
     }
   }

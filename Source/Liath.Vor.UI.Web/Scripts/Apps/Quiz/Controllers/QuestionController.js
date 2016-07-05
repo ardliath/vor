@@ -1,11 +1,11 @@
 ﻿quizApp.controller("questionController", function ($scope, $http, $log) {  
 
-  $scope.quiz = {};
+  $scope.exam = {};
 
-  $scope.getQuiz = function(id) {
-    $http.get("../../Question/Quiz/" + id)
+  $scope.getExam = function(id) {
+    $http.get("../../Question/Exam/" + id)
 			.success(function (response) {
-			  $scope.quiz = response;
+			  $scope.exam = response;
       })
 			.error(function (data, status, headers, config) {
 			  $log.error(data, status, headers, config);
