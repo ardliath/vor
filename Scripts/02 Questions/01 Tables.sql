@@ -28,7 +28,7 @@ create table Quiz
 	QuizID int identity(1,1) not null,
 	Title nvarchar(255) not null,
 	StartDate DateTime null,
-	EndTime DateTime null,
+	EndDate DateTime null,
 	constraint PK_Quiz primary key (QuizID)
 )
 
@@ -42,4 +42,21 @@ create table QuizQuestions
 	constraint PK_QuizQuestions primary key (QuizID, QuestionID),
 	constraint FK_QuizQuestions_Quiz foreign key (QuizID) references Quiz(QuizID),
 	constraint FK_QuizQuestions_Question foreign key (QuestionID) references Questions(QuestionID),
+)
+
+GO
+
+create table Exams
+(
+	ExamID int not null identity(1,1),
+	QuizID int not null,
+	UserAccountID int not null,
+	QuestionID int null,
+	StartDate datetime null,
+	EndDate datetime null,
+	Score int null,
+	constraint PK_Exams primary key (ExamID),
+	constraint FK_Exams_Quiz foreign key (QuizID) references Quiz(QuizID),
+	constraint FK_Exams_Question foreign key (QuestionID) references Questions(QuestionID),
+	constraint FK_Exams_UserAccounts foreign key (UserAccountID) references UserAccounts(UserAccountID)
 )
