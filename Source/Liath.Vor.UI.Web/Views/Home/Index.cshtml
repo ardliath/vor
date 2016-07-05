@@ -18,8 +18,8 @@
               <table>
                 <tr ng-repeat="option in question.Options">
                   <td>
-                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" />
-                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" />
+                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" value="{{option.OptionID}}"/>
+                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" value="{{option.OptionID}}"/>
                     {{option.Text}}
                   </td>
                 </tr>
@@ -27,6 +27,10 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="panel-footer">
+        <input type="button" class="btn btn-default" ng-disabled="buttons.backButtonDisabled" value="Back"/>
+        <input type="button" class="btn btn-default" value="Next"/>        
       </div>
     </div>
   </div>

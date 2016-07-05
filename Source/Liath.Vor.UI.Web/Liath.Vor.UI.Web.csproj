@@ -137,6 +137,7 @@
     <Content Include="Scripts\Bootstrap\ui-bootstrap.min.js" />
     <Content Include="Scripts\JQuery\jquery-1.11.3.min.js" />
     <Content Include="Scripts\TestPage.html" />
+    <Content Include="Scripts\Underscore\underscore-min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
