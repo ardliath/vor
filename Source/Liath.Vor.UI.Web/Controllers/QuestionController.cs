@@ -22,13 +22,15 @@ namespace Liath.Vor.UI.Web.Controllers
     }
 
     [HttpGet]
-    [ActionName("Question")]
-    public ActionResult GetQuestion(int id)
+    [ActionName("Quiz")]
+    public ActionResult GetQuiz(int id)
     {
       using (_sessionManager.CreateUnitOfWork())
       {
-        var question = _questionDataAccess.GetQuestion(id, false);
-        return Json(question, JsonRequestBehavior.AllowGet);
+        var quiz = _questionDataAccess.GetQuiz(id, false, false);
+        if (quiz == null) return HttpNotFound();
+
+        return Json(quiz, JsonRequestBehavior.AllowGet);
       }
     }
   }

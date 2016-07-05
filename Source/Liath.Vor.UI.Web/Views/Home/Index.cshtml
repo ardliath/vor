@@ -7,20 +7,26 @@
 
 <div class="container" ng-app="quizApp" ng-controller="questionController">
 
-  <div class="panel panel-primary">
-    <div class="panel-heading">Title</div>
+  <div class="panel panel-primary" ng-init="getQuiz(1)">
+    <div class="panel-heading"><h2>{{quiz.Title}}</h2></div>
     <div class="panel-body">
-      <p>Message: {{Message}}</p>
-
-      <div ng-init="getQuestion(1)">
-        {{question.Text}}
-        <table>
-          <tr ng-repeat="option in question.Options">
-            <td>
-              <input type="radio" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" /> {{option.Text}}
-            </td>
-          </tr>
-        </table>
+      <div>
+        <div ng-repeat="question in quiz.Questions">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              {{question.Text}}
+              <table>
+                <tr ng-repeat="option in question.Options">
+                  <td>
+                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" />
+                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" />
+                    {{option.Text}}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

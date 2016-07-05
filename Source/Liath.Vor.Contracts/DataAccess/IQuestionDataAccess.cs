@@ -10,5 +10,6 @@ namespace Liath.Vor.Contracts.DataAccess
   public interface IQuestionDataAccess
   {
     Question GetQuestion(int id, bool loadIsCorrect);
+    Quiz GetQuiz(int id, bool loadIsCorrect, bool includeExpiredQuizes);
   }
 }

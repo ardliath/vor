@@ -71,5 +71,112 @@ namespace Liath.Vor.DataAccess
 
       return question;
     }
+
+    public Quiz GetQuiz(int id, bool loadIsCorrect, bool includeExpiredQuizes)
+    {
+      Quiz quiz = null;
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("QA_GetQuiz"))
+      {
+        using (var dr = cmd.CreateAndAddParameter("QuizID", DbType.Int32, id).ExecuteReader())
+        {
+          if (dr.Read())
+          {
+            quiz = new Quiz();
+            quiz.QuizID = dr.GetInt32("QuizID");
+            quiz.Title = dr.GetString("Title");
+            quiz.StartDate = dr.GetNullableDateTime("StartDate");
+            quiz.EndDate = dr.GetNullableDateTime("EndDate");
+
+            if (!includeExpiredQuizes)
+            {
+              var now = DateTime.UtcNow;
+              if (quiz.StartDate.HasValue && quiz.StartDate.Value > now)
+              {
+                return null;
+              }
+
+              if (quiz.EndDate.HasValue && quiz.EndDate.Value < now)
+              {
+                return null;
+              }
+            }
+          }
+          else
+          {
+            return null;
+          }
+
+          dr.NextResult();
+          Question question = null;
+          var questions = new List<Question>();
+          var questionCreatedBy = new Dictionary<int, int>();
+          while (dr.Read())
+          {
+            question = new Question();
+            question.QuestionID = dr.GetInt32("QuestionID");
+            question.Text = dr.GetString("Text");
+            var typeText = dr.GetString("Type");
+            QuestionType qType;
+            if (!Enum.TryParse<QuestionType>(typeText, out qType))
+            {
+              continue;
+            }
+            question.Type = qType;
+            questions.Add(question);
+            questionCreatedBy.Add(question.QuestionID.Value, dr.GetInt32("CreatedBy"));
+          }
+          quiz.Questions = questions;
+
+          dr.NextResult();
+          UserAccount user = null;
+          var users = new List<UserAccount>();
+          while (dr.Read())
+          {
+            user = new UserAccount();
+            user.UserAccountID = dr.GetInt32("UserAccountID");
+            user.DomainName = dr.GetString("DomainName");
+            user.Firstname = dr.GetString("Firstname", true);
+            user.Lastname = dr.GetString("Lastname", true);
+
+            users.Add(user);
+          }
+
+          dr.NextResult();
+          var options = new Dictionary<int, List<Option>>();
+          while (dr.Read())
+          {
+            var questionID = dr.GetInt32("QuestionID");
+            if (!options.ContainsKey(questionID))
+            {
+              options[questionID] = new List<Option>();
+            }
+
+            var option = new Option();
+            option.OptionID = dr.GetInt32("OptionID");
+            option.Text = dr.GetString("Text");
+            if (loadIsCorrect)
+            {
+              option.IsCorrect = dr.GetBoolean("IsCorrect");
+            }
+            options[questionID].Add(option);
+          }
+
+          foreach (var thisQuestion in quiz.Questions)
+          {
+            thisQuestion.Options = options.ContainsKey(thisQuestion.QuestionID.Value)
+              ? options[thisQuestion.QuestionID.Value]
+              : new List<Option>();
+
+            if (questionCreatedBy.ContainsKey(thisQuestion.QuestionID.Value))
+            {
+              var userID = questionCreatedBy[thisQuestion.QuestionID.Value];
+              thisQuestion.CreatedBy = users.SingleOrDefault(u => u.UserAccountID == userID);
+            }
+          }
+        }
+
+        return quiz;
+      }
+    }
   }
 }
