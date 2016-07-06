@@ -60,3 +60,28 @@ create table Exams
 	constraint FK_Exams_Question foreign key (QuestionID) references Questions(QuestionID),
 	constraint FK_Exams_UserAccounts foreign key (UserAccountID) references UserAccounts(UserAccountID)
 )
+
+GO
+
+CREATE TABLE Answers
+(
+	AnswerID int not null identity(1,1),
+	ExamID int not null,
+	QuestionID int not null,
+	constraint PK_Answers primary key (AnswerID),
+	constraint FK_Answers_Question foreign key (QuestionID) references Questions(QuestionID),
+	constraint FK_Answers_Exam foreign key (ExamID) references Exams(ExamID),
+)
+
+GO
+
+CREATE TABLE AnswerOptions
+(
+	AnswerID int not null,
+	OptionID int not null,
+	QuestionID int not null
+	constraint PK_AnswerOptions primary key (AnswerID, OptionID),
+	constraint FK_AnswerOptions_Answer foreign key (AnswerID) references Answers(AnswerID),
+	constraint FK_AnswerOptions_Option foreign key (OptionID) references Options(OptionID),
+	constraint FK_AnswerOptions_Question foreign key (QuestionID) references Questions(QuestionID),
+)
