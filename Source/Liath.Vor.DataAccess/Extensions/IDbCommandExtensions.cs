@@ -12,8 +12,8 @@ namespace Liath.Vor.DataAccess.Extensions
     public static IDbCommand CreateAndAddParameter(this IDbCommand cmd, string name, DbType dbType, object value)
     {
       var param = cmd.CreateParameter();
-      param.ParameterName = name;
-      param.Value = value;
+      param.ParameterName = name;      
+      param.Value = value ?? DBNull.Value;
       param.DbType = dbType;
       cmd.Parameters.Add(param);
 

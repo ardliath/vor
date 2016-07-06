@@ -349,7 +349,17 @@ namespace Liath.Vor.DataAccess
 
     public void UpdateExam(Exam exam)
     {
-      throw new NotImplementedException();
+      if (exam == null) throw new ArgumentNullException(nameof(exam));
+      if (!exam.ExamID.HasValue) throw new ArgumentException("The exam must be saved before it can be updated");
+
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("QA_UpdateExam"))
+      {
+        cmd.CreateAndAddParameter("ExamID", DbType.Int32, exam.ExamID.Value)
+          .CreateAndAddParameter("CurrentQuestionID", DbType.Int32, exam.CurrentQuestionID)
+          .CreateAndAddParameter("EndDate", DbType.DateTime, exam.EndDate)
+          .CreateAndAddParameter("Score", DbType.Int32, exam.Score)
+          .ExecuteNonQuery();
+      }
     }
   }
 }
