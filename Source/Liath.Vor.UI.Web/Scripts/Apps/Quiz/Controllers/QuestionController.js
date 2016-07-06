@@ -41,10 +41,11 @@
     $http.post("../../Question/Answer", {
       ExamID: $scope.exam.ExamID,
       QuestionID: $scope.exam.CurrentQuestionID,
-      IsFowards: isForwards,
+      IsForwards: isForwards,
       Options: selectedOptions
     })
 			.success(function (response) {
+        $scope.exam.CurrentQuestionID = response.NextQuestionID;
 			  $scope.setButtonState();
 			})
 			.error(function (data, status, headers, config) {

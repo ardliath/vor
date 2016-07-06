@@ -39,8 +39,39 @@ namespace Liath.Vor
     public Question RecordAnswer(int examId, int questionId, bool isForwards, IEnumerable<int> options)
     {
       var exam = _questionDataAccess.GetExam(examId, false);
+      if (exam == null) return null;
 
+      var thisQuestion = exam.Quiz.Questions.SingleOrDefault(q => q.QuestionID == questionId);
+      if (thisQuestion == null) return null;
+
+      // TODO: record the answer!
       throw new NotImplementedException();
+
+      var nextQuestion = GetNextQuestion(exam, thisQuestion, isForwards);
+
+      // TODO: save the next question position to the database
+      return nextQuestion;
+    }
+
+    private Question GetNextQuestion(Exam exam, Question thisQuestion, bool isForwards)
+    {
+      var currentIndex = exam.Quiz.Questions.ToList().FindIndex(q => q.Equals(thisQuestion));
+      if (isForwards)
+      {
+        if (currentIndex < exam.Quiz.Questions.Count())
+        {
+          return exam.Quiz.Questions.ElementAt(currentIndex + 1);
+        }
+      }
+      else
+      {
+        if (currentIndex > 0)
+        {
+          return exam.Quiz.Questions.ElementAt(currentIndex - 1);
+        }
+      }
+
+      return null;
     }
   }
 }
