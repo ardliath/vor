@@ -38,6 +38,8 @@ namespace Liath.Vor
 
     public Question RecordAnswer(int examId, int questionId, bool isForwards, IEnumerable<int> options)
     {
+      var exam = _questionDataAccess.GetExam(examId, false);
+
       throw new NotImplementedException();
     }
   }

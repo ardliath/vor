@@ -16,10 +16,15 @@ namespace Liath.Vor.DataAccess
   public class QuestionDataAccess : IQuestionDataAccess
   {
     private readonly ISessionManager _sessionManager;
-    public QuestionDataAccess(ISessionManager sessionManager)
+    private readonly ISecurityDataAccess _securityDataAccess;
+
+    public QuestionDataAccess(ISessionManager sessionManager, ISecurityDataAccess securityDataAccess)
     {
       if (sessionManager == null) throw new ArgumentNullException(nameof(sessionManager));
+      if (securityDataAccess == null) throw new ArgumentNullException(nameof(securityDataAccess));
+
       _sessionManager = sessionManager;
+      _securityDataAccess = securityDataAccess;
     }
 
     public Question GetQuestion(int id, bool loadIsCorrect)
@@ -174,10 +179,10 @@ namespace Liath.Vor.DataAccess
               thisQuestion.CreatedBy = users.SingleOrDefault(u => u.UserAccountID == userID);
             }
           }
-        }
-
-        return quiz;
+        }        
       }
+
+      return quiz;
     }
 
     public Exam GetOrCreateExam(UserAccount user, Quiz quiz, DateTime now)
@@ -223,6 +228,42 @@ namespace Liath.Vor.DataAccess
           return null;
         }
       }        
+    }
+
+    public Exam GetExam(int examId, bool loadIsCorrect)
+    {
+      Exam exam;
+      int userID;
+      int quizID;
+
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("QA_GetExam"))
+      {        
+        using (var dr = cmd.CreateAndAddParameter("ExamID", DbType.Int32, examId)
+          .ExecuteReader())
+        {          
+
+          if (dr.Read())
+          {
+            exam = new Exam();
+            exam.ExamID = dr.GetInt32("ExamID");
+            exam.CurrentQuestionID = dr.GetInt32("QuestionID");
+            exam.StartDate = dr.GetDateTime("StartDate");
+            exam.EndDate = dr.GetNullableDateTime("EndDate");
+            exam.Score = dr.GetNullableInt32("Score");
+
+            quizID = dr.GetInt32("QuizID");
+            userID = dr.GetInt32("UserAccountID");
+          }
+          else
+          {
+            return null;
+          }          
+        }
+      }
+
+      exam.Quiz = this.GetQuiz(quizID, loadIsCorrect, true);
+      exam.UserAccount = _securityDataAccess.GetUserAccount(userID);
+      return exam;
     }
   }
 }

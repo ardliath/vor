@@ -23,7 +23,7 @@ namespace Liath.Vor.DataAccess
 
     public UserAccount GetOrCreateUserAccount(string domainName)
     {
-      using (var cmd = _sessionManager.CreateUnitOfWork().CreateSPCommand("USR_GetOrCreateUser"))
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("USR_GetOrCreateUser"))
       {
         using (var dr = cmd.CreateAndAddParameter("DomainName", DbType.String, domainName).ExecuteReader())
         {
@@ -41,6 +41,27 @@ namespace Liath.Vor.DataAccess
       }
 
       return null;
+    }
+
+    public UserAccount GetUserAccount(int userId)
+    {
+      UserAccount user = null;
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("USR_GetUser"))
+      {
+        using (var dr = cmd.CreateAndAddParameter("UserAccountID", DbType.Int32, userId).ExecuteReader())
+        {
+          if (dr.Read())
+          {
+            user = new UserAccount();
+            user.UserAccountID = dr.GetInt32("UserAccountID");
+            user.DomainName = dr.GetString("DomainName");
+            user.Firstname = dr.GetString("Firstname", true);
+            user.Lastname = dr.GetString("Lastname", true);            
+          }
+        }
+      }
+
+      return user;
     }
   }
 }

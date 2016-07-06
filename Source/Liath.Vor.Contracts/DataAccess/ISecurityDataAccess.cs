@@ -10,5 +10,6 @@ namespace Liath.Vor.Contracts.DataAccess
   public interface ISecurityDataAccess
   {
     UserAccount GetOrCreateUserAccount(string domainName);
+    UserAccount GetUserAccount(int userId);
   }
 }

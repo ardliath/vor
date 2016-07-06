@@ -12,3 +12,4 @@ END
 
 SELECT ExamID, QuizID, UserAccountID, QuestionID, StartDate, EndDate, Score
 FROM Exams
+WHERE QuizID = @QuizID AND UserAccountID = @UserAccountID AND EndDate IS NULL
