@@ -266,19 +266,85 @@ namespace Liath.Vor.DataAccess
       return exam;
     }
 
-    public Answer GetOrCreateAnswer(Exam exam, Question thisQuestion)
+    public Answer GetOrCreateAnswer(Exam exam, Question question)
     {
-      throw new NotImplementedException();
+      if (exam == null) throw new ArgumentNullException(nameof(exam));
+      if (!exam.ExamID.HasValue) throw new ArgumentException("The exam must be saved before answers can be created");
+
+      if (question == null) throw new ArgumentNullException(nameof(question));
+      if (!question.QuestionID.HasValue) throw new ArgumentException("The question must be saved before answers can be created");
+
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("QA_GetOrCreateAnswer"))
+      {
+        using (var dr = cmd.CreateAndAddParameter("ExamID", DbType.Int32, exam.ExamID.Value)
+          .CreateAndAddParameter("QuestionID", DbType.Int32, question.QuestionID.Value)
+          .ExecuteReader())
+        {
+          var answer = new Answer();
+          if (dr.Read())
+          {
+
+            answer.QuestionID = dr.GetInt32("QuestionID");
+            answer.AnswerID = dr.GetInt32("AnswerID");
+            answer.ExamID = dr.GetInt32("ExamID");
+          }
+          else
+          {
+            throw new DataException("No rows were returned by QA_GetOrCreateAnswer");
+          }
+
+          var options = new List<AnswerOption>();
+          dr.NextResult();
+          while (dr.Read())
+          {
+            var ao = new AnswerOption();
+            ao.QuestionID = answer.QuestionID;
+            ao.AnswerID = answer.AnswerID.Value;
+            ao.OptionID = dr.GetInt32("OptionID");
+          }
+          answer.AnswerOptions = options;
+
+          return answer;
+        }          
+      }      
     }
 
     public void ClearExistingOptionsFromAnswer(Answer answer)
     {
-      throw new NotImplementedException();
+      if (answer == null) throw new ArgumentNullException(nameof(answer));
+      if (!answer.AnswerID.HasValue) throw new ArgumentException("The answer must be saved before it can be cleared");
+
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("QA_ClearOptionsFromAnswer"))
+      {
+        cmd.CreateAndAddParameter("AnswerID", DbType.Int32, answer.AnswerID.Value)
+          .ExecuteNonQuery();
+
+        answer.AnswerOptions = new AnswerOption[] {};
+      }
     }
 
     public void SaveOptionForAnswer(Answer answer, int option)
     {
-      throw new NotImplementedException();
+      if (answer == null) throw new ArgumentNullException(nameof(answer));
+      if (!answer.AnswerID.HasValue) throw new ArgumentException("The answer must be saved before options can be added");
+
+      using (var cmd = _sessionManager.GetCurrentUnitOfWork().CreateSPCommand("QA_AddOptionToAnswer"))
+      {
+        cmd.CreateAndAddParameter("AnswerID", DbType.Int32, answer.AnswerID.Value)
+          .CreateAndAddParameter("OptionID", DbType.Int32, option)
+          .CreateAndAddParameter("QuestionID", DbType.Int32, answer.QuestionID)
+          .ExecuteNonQuery();
+
+        answer.AnswerOptions = answer.AnswerOptions.Union(new AnswerOption[]
+        {
+          new AnswerOption
+          {
+            AnswerID = answer.AnswerID.Value,
+            OptionID = option,
+            QuestionID = answer.QuestionID
+          }
+        });
+      }
     }
 
     public void UpdateExam(Exam exam)
