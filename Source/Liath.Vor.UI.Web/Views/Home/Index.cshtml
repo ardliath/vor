@@ -18,8 +18,8 @@
               <table>
                 <tr ng-repeat="option in question.Options">
                   <td>
-                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" value="{{option.OptionID}}"/>
-                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" value="{{option.OptionID}}"/>
+                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" ng-model="option.selected" />
+                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" ng-model="option.selected" />
                     {{option.Text}}
                   </td>
                 </tr>

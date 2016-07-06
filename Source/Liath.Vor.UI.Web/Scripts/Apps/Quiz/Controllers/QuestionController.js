@@ -25,12 +25,24 @@
     $scope.submitAnswer(true);
   }
 
-  $scope.submitAnswer = function(isForwards) {
+  $scope.submitAnswer = function (isForwards) {
+
+    var selectedOptions = new Array();
+    _.each($scope.exam.Quiz.Questions, function(question) {
+      if (question.QuestionID === $scope.exam.CurrentQuestionID) {
+        _.each(question.Options, function(option) {
+          if (option.selected) {
+            selectedOptions.push(option.OptionID);
+          }
+        });
+      }
+    });
+
     $http.post("../../Question/Answer", {
       ExamID: $scope.exam.ExamID,
       QuestionID: $scope.exam.CurrentQuestionID,
       IsFowards: isForwards,
-      Options: [1, 2, 3]
+      Options: selectedOptions
     })
 			.success(function (response) {
 			  $scope.setButtonState();
