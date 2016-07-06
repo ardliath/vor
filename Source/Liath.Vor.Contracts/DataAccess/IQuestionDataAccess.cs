@@ -13,5 +13,9 @@ namespace Liath.Vor.Contracts.DataAccess
     Quiz GetQuiz(int id, bool loadIsCorrect, bool includeExpiredQuizes);
     Exam GetOrCreateExam(UserAccount user, Quiz quiz, DateTime now);
     Exam GetExam(int examId, bool loadIsCorrect);
+    Answer GetOrCreateAnswer(Exam exam, Question thisQuestion);
+    void ClearExistingOptionsFromAnswer(Answer answer);
+    void SaveOptionForAnswer(Answer answer, int option);
+    void UpdateExam(Exam exam);
   }
 }

@@ -45,11 +45,20 @@ namespace Liath.Vor
       if (thisQuestion == null) return null;
 
       // TODO: record the answer!
-      throw new NotImplementedException();
+      var answer = _questionDataAccess.GetOrCreateAnswer(exam, thisQuestion);
+      _questionDataAccess.ClearExistingOptionsFromAnswer(answer);
+      foreach (var option in options)
+      {
+        _questionDataAccess.SaveOptionForAnswer(answer, option);
+      }
 
       var nextQuestion = GetNextQuestion(exam, thisQuestion, isForwards);
+      if (nextQuestion != null && nextQuestion.QuestionID.HasValue)
+      {
+        exam.CurrentQuestionID = nextQuestion.QuestionID.Value;
+        _questionDataAccess.UpdateExam(exam);
+      }
 
-      // TODO: save the next question position to the database
       return nextQuestion;
     }
 

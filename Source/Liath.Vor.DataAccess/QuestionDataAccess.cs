@@ -265,5 +265,25 @@ namespace Liath.Vor.DataAccess
       exam.UserAccount = _securityDataAccess.GetUserAccount(userID);
       return exam;
     }
+
+    public Answer GetOrCreateAnswer(Exam exam, Question thisQuestion)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void ClearExistingOptionsFromAnswer(Answer answer)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void SaveOptionForAnswer(Answer answer, int option)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void UpdateExam(Exam exam)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
