@@ -43,13 +43,15 @@ namespace Liath.Vor
 
       var thisQuestion = exam.Quiz.Questions.SingleOrDefault(q => q.QuestionID == questionId);
       if (thisQuestion == null) return null;
-
-      // TODO: record the answer!
+      
       var answer = _questionDataAccess.GetOrCreateAnswer(exam, thisQuestion);
       _questionDataAccess.ClearExistingOptionsFromAnswer(answer);
-      foreach (var option in options)
+      if (options != null)
       {
-        _questionDataAccess.SaveOptionForAnswer(answer, option);
+        foreach (var option in options)
+        {
+          _questionDataAccess.SaveOptionForAnswer(answer, option);
+        }
       }
 
       var nextQuestion = GetNextQuestion(exam, thisQuestion, isForwards);
