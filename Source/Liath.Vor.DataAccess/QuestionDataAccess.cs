@@ -211,9 +211,10 @@ namespace Liath.Vor.DataAccess
           .CreateAndAddParameter("FirstQuestion", DbType.Int32, firstQuestion.QuestionID.Value)
           .ExecuteReader())
         {
+
+          var exam = new Exam();
           if (dr.Read())
           {
-            var exam = new Exam();
             exam.ExamID = dr.GetInt32("ExamID");
             exam.CurrentQuestionID = dr.GetInt32("QuestionID");
             exam.StartDate = dr.GetDateTime("StartDate");
@@ -221,13 +222,63 @@ namespace Liath.Vor.DataAccess
             exam.Score = dr.GetNullableInt32("Score");
             exam.Quiz = quiz;
             exam.UserAccount = user;
-
-            return exam;
+          }
+          else
+          {
+            return null;
           }
 
-          return null;
+
+          dr.NextResult();
+          this.ReadAnswers(exam, dr);
+
+          return exam;
+          
         }
       }        
+    }
+
+    private void ReadAnswers(Exam exam, IDataReader dr)
+    {      
+      var qa = new Dictionary<int, List<AnswerOption>>();
+      var questions = new List<int>();
+      while (dr.Read())
+      {
+        var questionID = dr.GetInt32("QuestionID");
+        var answerID = dr.GetInt32("AnswerID");
+        var optionID = dr.GetInt32("OptionID");
+
+        if (!qa.ContainsKey(questionID))
+        {
+          qa.Add(questionID, new List<AnswerOption>());
+          questions.Add(questionID);
+        }
+        qa[questionID].Add(new AnswerOption
+        {
+          QuestionID = questionID,
+          AnswerID = answerID,
+          OptionID = optionID
+        });
+      }
+
+      var answers = new List<Answer>();
+      foreach (var question in questions)
+      {
+        answers.Add(new Answer
+        {
+          QuestionID = question,
+          ExamID = exam.ExamID.Value,
+          AnswerID = qa[question].First().AnswerID, // there's only one answer per question per exam so we can take the first
+          AnswerOptions = qa[question].Select(a => new AnswerOption
+          {
+            QuestionID = question,
+            AnswerID = a.AnswerID,
+            OptionID = a.OptionID
+          })
+        });
+      }
+
+      exam.Answers = answers;
     }
 
     public Exam GetExam(int examId, bool loadIsCorrect)
@@ -257,7 +308,10 @@ namespace Liath.Vor.DataAccess
           else
           {
             return null;
-          }          
+          }
+
+          dr.NextResult();
+          this.ReadAnswers(exam, dr);
         }
       }
 
