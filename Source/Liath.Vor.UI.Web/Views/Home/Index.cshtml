@@ -8,18 +8,18 @@
 <div class="container" ng-app="quizApp" ng-controller="questionController">
 
   <div class="panel panel-primary" ng-init="getExam(1)">
-    <div class="panel-heading"><h2>{{exam.Quiz.Title}}</h2></div>
+    <div class="panel-heading"><h2>{{thisExam.title}}</h2></div>
     <div class="panel-body">
       <div>
-        <div ng-repeat="question in exam.Quiz.Questions" ng-show="question.QuestionID == exam.CurrentQuestionID">
+        <div ng-repeat="question in thisExam.Questions" ng-show="question.QuestionID == thisExam.currentQuestionID">          
           <div class="panel panel-default">
             <div class="panel-body">
               {{question.Text}}
               <table>
                 <tr ng-repeat="option in question.Options">
                   <td>
-                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" ng-model="option.selected" />
-                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" value="{{option.OptionID}}" ng-model="option.selected" />
+                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" ng-model="question.selectedOption" ng-value="option.OptionID"/>
+                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" ng-model="option.selected"/>
                     {{option.Text}}
                   </td>
                 </tr>
