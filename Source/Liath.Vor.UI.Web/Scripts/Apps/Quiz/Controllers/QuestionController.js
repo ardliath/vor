@@ -2,7 +2,8 @@
 
   $scope.thisExam = {};
   $scope.buttons = {
-    backButtonDisabled: true
+    backButtonDisabled: true,
+    submitButtonVisible: false
   };
 
 
@@ -66,6 +67,7 @@
   $scope.setButtonState = function () {
     $scope.buttons.backButtonDisabled = _.first($scope.thisExam.Questions).QuestionID === $scope.thisExam.currentQuestionID;
     $scope.buttons.nextButtonDisabled = $scope.thisExam.currentQuestionID == null;
+    $scope.buttons.submitButtonVisible = $scope.thisExam.currentQuestionID == null;
   }
 
   $scope.nextQuestion = function () {

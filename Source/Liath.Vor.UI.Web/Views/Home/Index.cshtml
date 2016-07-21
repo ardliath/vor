@@ -8,18 +8,18 @@
 <div class="container" ng-app="quizApp" ng-controller="questionController">
 
   <div class="panel panel-primary" ng-init="getExam(1)">
-    <div class="panel-heading"><h2>{{thisExam.title}}</h2></div>
+    <div class="panel-heading"><h2>{{thisExam.Title}}</h2></div>
     <div class="panel-body">
       <div>
-        <div ng-repeat="question in thisExam.Questions" ng-show="question.QuestionID == thisExam.currentQuestionID">          
+        <div ng-repeat="question in thisExam.Questions" ng-show="question.QuestionID == thisExam.currentQuestionID">
           <div class="panel panel-default">
             <div class="panel-body">
               {{question.Text}}
               <table>
                 <tr ng-repeat="option in question.Options">
                   <td>
-                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" ng-model="question.selectedOption" ng-value="option.OptionID"/>
-                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" ng-model="option.selected"/>
+                    <input ng-show="question.Type == 0" type="radio" name="Q{{question.QuestionID}}" ng-model="question.selectedOption" ng-value="option.OptionID" />
+                    <input ng-show="question.Type == 1" type="checkbox" name="Q{{question.QuestionID}}" ng-model="option.selected" />
                     {{option.Text}}
                   </td>
                 </tr>
@@ -27,10 +27,28 @@
             </div>
           </div>
         </div>
+        <div class="panel panel-default" ng-show="thisExam.currentQuestionID == null">          
+          <div class="panel-body">
+            <table class="table">
+              <thead>
+              <tr>
+                <th colspan="2">
+                  Review your answers before submitting
+                </th>
+              </tr>
+              </thead>
+              <tr ng-repeat="question in thisExam.Questions">
+                <td>{{question.Text}}</td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
       <div class="panel-footer">
         <input type="button" class="btn btn-default" ng-disabled="buttons.backButtonDisabled" value="Back" ng-click="previousQuestion()" />
-        <input type="button" class="btn btn-default" ng-disabled="buttons.nextButtonDisabled"  value="Next" ng-click="nextQuestion()" />        
+        <input type="button" class="btn btn-default" ng-disabled="buttons.nextButtonDisabled" value="Next" ng-click="nextQuestion()"/>
+        <input type="button" class="btn btn-primary" ng-show="buttons.submitButtonVisible" value="Submit" ng-click="submitExam()" />
       </div>
     </div>
   </div>
