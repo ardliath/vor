@@ -49,7 +49,7 @@ namespace Liath.Vor.UI.Web.Controllers
           answer.Options);
         return Json(new
         {
-          NextQuestionID = nextQuestion.QuestionID
+          NextQuestionID = nextQuestion?.QuestionID
         });
       }
     }

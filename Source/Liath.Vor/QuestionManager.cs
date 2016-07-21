@@ -69,7 +69,7 @@ namespace Liath.Vor
       var currentIndex = exam.Quiz.Questions.ToList().FindIndex(q => q.Equals(thisQuestion));
       if (isForwards)
       {
-        if (currentIndex < exam.Quiz.Questions.Count())
+        if (currentIndex + 1 < exam.Quiz.Questions.Count())
         {
           return exam.Quiz.Questions.ElementAt(currentIndex + 1);
         }
@@ -79,6 +79,10 @@ namespace Liath.Vor
         if (currentIndex > 0)
         {
           return exam.Quiz.Questions.ElementAt(currentIndex - 1);
+        }
+        else
+        {
+          return exam.Quiz.Questions.First();
         }
       }
 

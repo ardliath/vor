@@ -65,6 +65,7 @@
 
   $scope.setButtonState = function () {
     $scope.buttons.backButtonDisabled = _.first($scope.thisExam.Questions).QuestionID === $scope.thisExam.currentQuestionID;
+    $scope.buttons.nextButtonDisabled = $scope.thisExam.currentQuestionID == null;
   }
 
   $scope.nextQuestion = function () {
@@ -104,6 +105,11 @@
   }
 
   $scope.previousQuestion = function () {
-    $scope.submitAnswer(false);
+    if ($scope.thisExam.currentQuestionID != null) {
+      $scope.submitAnswer(false);
+    } else { // back from summary page
+      $scope.thisExam.currentQuestionID = _.last($scope.thisExam.Questions).QuestionID;
+      $scope.setButtonState();
+    }
   }
 });
