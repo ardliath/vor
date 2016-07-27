@@ -53,5 +53,16 @@ namespace Liath.Vor.UI.Web.Controllers
         });
       }
     }
+
+    [HttpPost]
+    [ActionName("SubmitExam")]
+    public ActionResult RecordAnswer(SubmitExam answer)
+    {
+      using (_sessionManager.CreateUnitOfWork())
+      {
+        var examResults = _questionManager.SubmitExam(answer.ExamID);
+        return Json(examResults);
+      }
+    }
   }
 }

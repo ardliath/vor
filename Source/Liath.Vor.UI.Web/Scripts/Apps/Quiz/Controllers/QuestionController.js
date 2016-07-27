@@ -65,10 +65,12 @@
   }
 
   $scope.setButtonState = function () {
-    $scope.buttons.backButtonDisabled = _.first($scope.thisExam.Questions).QuestionID === $scope.thisExam.currentQuestionID;
-    $scope.buttons.nextButtonDisabled = $scope.thisExam.currentQuestionID == null;
-    $scope.buttons.submitButtonVisible = $scope.thisExam.currentQuestionID == null;
+    $scope.buttons.backButtonDisabled = _.first($scope.thisExam.Questions).QuestionID === $scope.thisExam.currentQuestionID || $scope.results != null;
+    $scope.buttons.nextButtonDisabled = $scope.thisExam.currentQuestionID == null || $scope.results != null;
+    $scope.buttons.submitButtonVisible = $scope.thisExam.currentQuestionID == null && $scope.results == null;
   }
+
+  $scope.results = null;
 
   $scope.nextQuestion = function () {
     $scope.submitAnswer(true);
@@ -113,6 +115,21 @@
       $scope.thisExam.currentQuestionID = _.last($scope.thisExam.Questions).QuestionID;
       $scope.setButtonState();
     }
+  }
+
+  $scope.submitExam = function () {
+
+
+    $http.post("../../Question/SubmitExam", {
+      ExamID: $scope.thisExam.examID
+    })
+			.success(function (response) {
+        $scope.results = response;
+			  $scope.setButtonState();
+			})
+			.error(function (data, status, headers, config) {
+			  $log.error(data, status, headers, config);
+			});  
   }
 
   $scope.writeAnswer = function(question) {

@@ -11,5 +11,6 @@ namespace Liath.Vor.Contracts.BusinessLogic
   {
     Exam GetExam(int quizID);
     Question RecordAnswer(int examId, int questionId, bool isForwards, IEnumerable<int> options);
+    ExamResults SubmitExam(int examId);
   }
 }

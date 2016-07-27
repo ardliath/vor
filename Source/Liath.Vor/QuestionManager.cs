@@ -64,6 +64,14 @@ namespace Liath.Vor
       return nextQuestion;
     }
 
+    public ExamResults SubmitExam(int examId)
+    {
+      return new ExamResults
+      {
+        ExamID = examId
+      };
+    }
+
     private Question GetNextQuestion(Exam exam, Question thisQuestion, bool isForwards)
     {
       var currentIndex = exam.Quiz.Questions.ToList().FindIndex(q => q.Equals(thisQuestion));

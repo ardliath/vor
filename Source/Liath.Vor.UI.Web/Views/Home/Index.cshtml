@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <div class="panel panel-default" ng-show="thisExam.currentQuestionID == null">          
+        <div class="panel panel-default" ng-show="thisExam.currentQuestionID == null && results == null">
           <div class="panel-body">
             <table class="table">
               <thead>
@@ -36,6 +36,23 @@
                   Review your answers before submitting
                 </th>
               </tr>
+              </thead>
+              <tr ng-repeat="question in thisExam.Questions">
+                <td>{{question.Text}}</td>
+                <td>{{writeAnswer(question)}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="panel panel-default" ng-show="thisExam.currentQuestionID == null && results != null">
+          <div class="panel-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th colspan="2">
+                    Exam Complete
+                  </th>
+                </tr>
               </thead>
               <tr ng-repeat="question in thisExam.Questions">
                 <td>{{question.Text}}</td>
