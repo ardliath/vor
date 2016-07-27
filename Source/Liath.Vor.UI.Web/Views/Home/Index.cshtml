@@ -48,15 +48,21 @@
           <div class="panel-body">
             <table class="table">
               <thead>
-                <tr>
-                  <th colspan="2">
-                    Exam Complete
-                  </th>
-                </tr>
+              <tr>
+                <th colspan="4">
+                  You scored {{results.NumberOfCorrectAnswers}} / {{results.NumberOfQuestions}}
+                </th>
+              </tr>
+              <tr>
+                <th>Question</th>
+                <th>Your Answer</th>
+                <th>Correct Answer</th>
+              </tr>
               </thead>
-              <tr ng-repeat="question in thisExam.Questions">
-                <td>{{question.Text}}</td>
-                <td>{{writeAnswer(question)}}</td>
+              <tr ng-repeat="question in results.QuestionResults" ng-class="getClassForQuestion(question)">
+                <td>{{question.Question.Text}}</td>
+                <td>{{listOptions(question.GivenOptions)}}</td>
+                <td>{{listOptions(question.CorrectOptions)}}</td>                
               </tr>
             </table>
           </div>

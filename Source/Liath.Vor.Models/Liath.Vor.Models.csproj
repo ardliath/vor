@@ -46,6 +46,7 @@
     <Compile Include="Answer.cs" />
     <Compile Include="AnswerOption.cs" />
     <Compile Include="Exam.cs" />
+    <Compile Include="QuestionResult.cs" />
     <Compile Include="ExamResults.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

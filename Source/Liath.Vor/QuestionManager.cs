@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,9 +67,65 @@ namespace Liath.Vor
 
     public ExamResults SubmitExam(int examId)
     {
-      return new ExamResults
+      var currentUser = _securityManager.GetOrCreateUserAccount();
+      var exam = _questionDataAccess.GetExam(examId, true);
+      if (currentUser.UserAccountID != exam.UserAccount.UserAccountID)
       {
-        ExamID = examId
+        throw new DataException("The user is not authorised to view this exam");
+      }           
+
+      var results = new ExamResults
+      {
+        ExamID = examId,
+        QuestionResults = exam.Quiz.Questions.Select(q => this.MarkQuestion(q, exam.Answers)),
+        NumberOfQuestions = exam.Quiz.Questions.Count()
+      };
+      results.NumberOfCorrectAnswers = results.QuestionResults.Count(q => q.WasCorrect);
+
+      return results;
+    }
+
+    /// <summary>
+    /// Creates a QuestionResult indicating whether the exam question was answered correctly
+    /// </summary>
+    private QuestionResult MarkQuestion(Question question, IEnumerable<Answer> answers)
+    {
+      if (question == null) throw new ArgumentNullException(nameof(question));
+      if (!question.QuestionID.HasValue) throw new ArgumentException("The question cannot be marked until it has been saved");
+      if (answers == null) throw new ArgumentNullException(nameof(answers));
+
+      bool isCorrect = false;
+      var correctOptions = question.Options.Where(o => o.IsCorrect == true).OrderBy(o => o.OptionID);
+      IEnumerable<Option> givenOptions = new Option[] {};
+
+      var matchingAnswer = answers.SingleOrDefault(a => a.QuestionID == question.QuestionID.Value);
+      if (matchingAnswer != null)
+      {
+        var givenOptionIDs = matchingAnswer.AnswerOptions.OrderBy(o => o.OptionID).Select(ao => ao.OptionID);
+        givenOptions = question.Options.Where(o => o.OptionID.HasValue && givenOptionIDs.Contains(o.OptionID.Value));
+        if (givenOptions.Count() == correctOptions.Count())
+        {
+          var allAnswersCorrectSoFar = true;
+          for (int i = 0; i < givenOptions.Count(); i++)
+          {
+            if (givenOptionIDs.ElementAt(i) != correctOptions.ElementAt(i).OptionID)
+            {
+              allAnswersCorrectSoFar = false;
+              break;
+            }
+          }
+
+          isCorrect = allAnswersCorrectSoFar;
+        }
+      }
+
+      
+      return new QuestionResult
+      {
+        Question = question,
+        WasCorrect = isCorrect,
+        GivenOptions = givenOptions,
+        CorrectOptions = correctOptions
       };
     }
 

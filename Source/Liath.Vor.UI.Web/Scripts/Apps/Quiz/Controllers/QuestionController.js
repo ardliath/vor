@@ -132,6 +132,22 @@
 			});  
   }
 
+  $scope.listOptions = function(options) {
+    var allOptions = new Array();
+    _.each(options, function (option) {      
+      allOptions.push(option.Text);
+    });
+    return allOptions.join().replace(',', ', ');
+  }
+
+  $scope.getClassForQuestion = function(question){
+    if (question.WasCorrect === true) {
+      return "success";
+    } else {
+      return "danger";
+    }    
+  }
+
   $scope.writeAnswer = function(question) {
     if (question.Type === 0) { // exlusive
       var selectedOption;
