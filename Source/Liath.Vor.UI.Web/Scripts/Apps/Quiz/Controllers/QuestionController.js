@@ -114,4 +114,25 @@
       $scope.setButtonState();
     }
   }
+
+  $scope.writeAnswer = function(question) {
+    if (question.Type === 0) { // exlusive
+      var selectedOption;
+      _.each(question.Options, function(option) {
+        if (option.OptionID === question.selectedOption) {
+          selectedOption = option;
+        }
+      });
+
+      return selectedOption.Text;
+    } else {
+      var selected = new Array();
+      _.each(question.Options, function(option) {
+        if (option.selected) {
+          selected.push(option.Text);          
+        }        
+      });
+      return selected.join().replace(',', ', ');
+    }
+  }
 });

@@ -39,7 +39,7 @@
               </thead>
               <tr ng-repeat="question in thisExam.Questions">
                 <td>{{question.Text}}</td>
-                <td></td>
+                <td>{{writeAnswer(question)}}</td>
               </tr>
             </table>
           </div>
