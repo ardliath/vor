@@ -31,7 +31,6 @@ namespace Liath.Vor.UI.Web.Controllers
       using (_sessionManager.CreateUnitOfWork())
       {
         var exam = _questionManager.GetExam(id);
-        if (exam == null) return HttpNotFound();
 
         return Json(exam, JsonRequestBehavior.AllowGet);
       }

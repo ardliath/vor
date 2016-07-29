@@ -18,7 +18,14 @@
 			});
   }
 
-  $scope.createExamFromResponse = function (response) {    
+  $scope.examNotFound = false;
+  $scope.createExamFromResponse = function (response) {
+
+    if (response == null || response === '') {
+      $scope.examNotFound = true;
+      return;
+    }
+
     $scope.thisExam = response.Quiz;
     $scope.thisExam.examID = response.ExamID;
     $scope.thisExam.currentQuestionID = response.CurrentQuestionID;

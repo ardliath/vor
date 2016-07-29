@@ -5,8 +5,10 @@
 <br />
 <div class="container" ng-app="quizApp" ng-controller="questionController">
 
-  <div class="panel panel-primary" ng-init="getExam(1)">
-    <div class="panel-heading"><h2>{{thisExam.Title}}</h2></div>
+  <div class="panel panel-primary" ng-init="getExam(1)" ng-show="!examNotFound" ng-cloak>
+    <div class="panel-heading">
+      <h2>{{thisExam.Title}}</h2>
+    </div>
     <div class="panel-body">
       <div>
         <div ng-repeat="question in thisExam.Questions" ng-show="question.QuestionID == thisExam.currentQuestionID">
@@ -29,11 +31,11 @@
           <div class="panel-body">
             <table class="table">
               <thead>
-              <tr>
-                <th colspan="2">
-                  Review your answers before submitting
-                </th>
-              </tr>
+                <tr>
+                  <th colspan="2">
+                    Review your answers before submitting
+                  </th>
+                </tr>
               </thead>
               <tr ng-repeat="question in thisExam.Questions">
                 <td>{{question.Text}}</td>
@@ -46,21 +48,21 @@
           <div class="panel-body">
             <table class="table">
               <thead>
-              <tr>
-                <th colspan="4">
-                  You scored {{results.NumberOfCorrectAnswers}} / {{results.NumberOfQuestions}}
-                </th>
-              </tr>
-              <tr>
-                <th>Question</th>
-                <th>Your Answer</th>
-                <th>Correct Answer</th>
-              </tr>
+                <tr>
+                  <th colspan="4">
+                    You scored {{results.NumberOfCorrectAnswers}} / {{results.NumberOfQuestions}}
+                  </th>
+                </tr>
+                <tr>
+                  <th>Question</th>
+                  <th>Your Answer</th>
+                  <th>Correct Answer</th>
+                </tr>
               </thead>
               <tr ng-repeat="question in results.QuestionResults" ng-class="getClassForQuestion(question)">
                 <td>{{question.Question.Text}}</td>
                 <td>{{listOptions(question.GivenOptions)}}</td>
-                <td>{{listOptions(question.CorrectOptions)}}</td>                
+                <td>{{listOptions(question.CorrectOptions)}}</td>
               </tr>
             </table>
           </div>
@@ -68,9 +70,17 @@
       </div>
       <div class="panel-footer">
         <input type="button" class="btn btn-default" ng-disabled="buttons.backButtonDisabled" value="Back" ng-click="previousQuestion()" />
-        <input type="button" class="btn btn-default" ng-disabled="buttons.nextButtonDisabled" value="Next" ng-click="nextQuestion()"/>
+        <input type="button" class="btn btn-default" ng-disabled="buttons.nextButtonDisabled" value="Next" ng-click="nextQuestion()" />
         <input type="button" class="btn btn-primary" ng-show="buttons.submitButtonVisible" value="Submit" ng-click="submitExam()" />
       </div>
+    </div>
+  </div>
+  <div ng-show="examNotFound" class="panel panel-danger">
+    <div class="panel-heading">
+      <h2>Quiz not Found</h2>
+    </div>
+    <div class="panel-body">
+      <p>The quiz could not be found, it may have ended or you could have the wrong address.</p>
     </div>
   </div>
 </div>
