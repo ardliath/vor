@@ -82,6 +82,10 @@ namespace Liath.Vor
       };
       results.NumberOfCorrectAnswers = results.QuestionResults.Count(q => q.WasCorrect);
 
+      exam.EndDate = _timeManager.GetNow();
+      exam.Score = results.NumberOfCorrectAnswers;
+      _questionDataAccess.UpdateExam(exam);
+
       return results;
     }
 
